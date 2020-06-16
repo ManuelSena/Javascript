@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Summing Integer Check</title>
+    <meta name="viewport" content="width=device-width" />
+  
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+    <div>
+       <h2>Hello, W0rld!</h2>
+    </div>
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="ajaxer.js"></script>
+    <!--Write your scripts below-->
+    <script>
+        // Takes a parameter and checks if the type of this parameter is an integer. 
+
+        ajaxer.page.isNumber = function (integer) {
+            if (integer % 1 === 0 && integer !== null)
+                return true;
+            else {
+                return false;
+            }
+        }
+       // Takes two integers and returns the sum of these two.
+        ajaxer.page.sum = function () {
+           // Makes sure that the parameters passed to this function are integers.
+            if (ajaxer.page.isNumber === true)
+                // If the parameters are not integers the function returns the message 'Please enter an integer'.
+                return x + y;
+            else {
+                return "Please enter an integer";
+            }
+        }
+    </script>
+</body>
+</html>
