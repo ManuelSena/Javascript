@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Manny's Page</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+     body {
+         padding-left: 10px;
+     }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-8">
+            <form id="shippingForm">
+                <div class="col-md-6 shipping col-sm-6 col-xs-12">
+                    <h3 class="text-center">Shipping Address</h3>
+                    <hr>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="first_name" id="S_first_name" class="form-control input-sm" placeholder="First Name">
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="last_name" id="S_last_name" class="form-control input-sm" placeholder="Last Name">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="S_Email_Id" id="S_Email_Id" class="form-control input-sm" placeholder="Email id">
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="S_Mobile_No" id="S_Mobile_No" class="form-control input-sm" placeholder="Mobile no">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <textarea class="form-control" id="S_TextArea"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="S_country" id="S_country" class="form-control input-sm" placeholder="country">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="S_city" id="S_city" class="form-control input-sm" placeholder="city">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="S_pincode" id="S_pincode" class="form-control input-sm" placeholder="pincode">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form id="billingForm">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    <h3 class="text-center">Billing Address</h3>
+                    <hr>
+
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="email_Id" id="email_Id" class="form-control input-sm" placeholder="Email id">
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="mobile_No" id="mobile_No" class="form-control input-sm" placeholder="Mobile no">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <textarea class="form-control" id="textArea"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="country" id="country" class="form-control input-sm" placeholder="country">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="city" id="city" class="form-control input-sm" placeholder="city">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <input type="text" name="pincode" id="pincode" class="form-control input-sm" placeholder="pincode">
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <button type="submit" class="btn btn-success" id="readShippingValues"> Is Billing same as shipping Address</button>
+                <button type="reset" class="btn btn-danger" id="cancelButton">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!-- All your code goes below here-->
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $("#readShippingValues").on("click", copyValuesToBilling);
+        
+
+        function copyValuesToBilling(e) {
+            e.preventDefault();
+            console.log("read");
+
+
+           var sFirst = $("#S_first_name").val()
+           $("#first_name").val(sFirst);
+           console.log(sFirst);
+
+           var sLast = $("#S_last_name").val();
+           $("#last_name").val(sLast);
+           console.log(sLast);
+
+           var sEmail = $("#S_Email_Id").val();
+           $("#email_Id").val(sEmail);
+           console.log(sEmail);
+
+           var sMobile = $("S_Mobile_No").val();
+           $("#mobile_No").val(sMobile);
+           console.log(sMobile);
+
+           var sText = $("#S_TextArea").val();
+           $("#textArea").val(sText);
+           console.log(sText);
+
+           var sCountry = $("#S_country").val();
+           $("#country").val(sCountry);
+           console.log(sCountry);
+
+           var sCity = $("#S_city").val();
+           $("#city").val(sCity);
+           console.log(sCity);
+           
+           var sPin = $("#S_pincode").val();
+           $("#pincode").val(sPin);
+           console.log(sPin);
+          
+        }
+
+
+        $("cancelButton").on("click", cancelForm);
+
+        function cancelForm() {
+           var shippingFormElem = $("#shippingForm");
+           var billingFormElem = $("#billingForm");
+           shippingFormElem[0].reset();
+           billingFormElem[0].reset();
+        }
+});
+    </script>
+
+</body>
+
+</html>
