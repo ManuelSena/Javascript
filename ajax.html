@@ -1,0 +1,284 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>AJAX Entity Endpoint</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <form id="entityForm">
+                    <div>
+                        <div>
+                            <label>Team</label>
+                            <input type="text" id="teamName" class="form-control" name="team" placeholder="Enter Team Name">
+                        </div>
+                        <div>
+                            <label>Sport</label>
+                            <input type="text" id="sportName" class="form-control" placeholder="Enter Sport">
+                        </div>
+                        <div>
+                            <label>City</label>
+                            <input type="text" id="cityName" class="form-control" placeholder="Enter City">
+                        </div>
+                        <div>
+                            <label>ID</label>
+                            <input type="number" id="id" class="form-control" placeholder="ID#">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success" id="post">POST</button>
+                    <button type="button" class="btn btn-primary" id="listAll">LIST ALL</button>
+                    <button type="button" class="btn btn-danger" id="delete">DELETE</button>
+
+                </form>
+            </div>
+        </div>
+        <div id="entityList">
+            ​
+        </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="ajaxer.js"></script>
+    <!-- All your code goes below here-->
+
+    <!-- Template for entities -->
+    <script type="text/html" id="entityTemplate">
+        <div id="dataInfo" class="col-md-4 well">
+            <p>Team:
+                <span class="teamName"></span>
+            </p>
+            <p>Sport:
+                <span class="sportName"></span>
+            </p>
+            <p>City:
+                <span class="cityName"></span>
+            </p>
+            <p class="hidden teamId"></p>
+            <button type="button" class="btn btn-primary" id="edit">EDIT</button>
+            
+        </div>
+
+    </script>
+
+    <script type="text/javascript">
+        ajaxer.page.startUp = () => {
+            console.log("STARTUP MANNY");
+
+            // $.ajaxSetup({
+            //     headers: {
+            //         //added header
+            //         'AJAXER-AUTH': 'U7VSPSSJW'
+            //     }
+            // });
+
+            $("#post").on('click', ajaxer.page.handlers.postDataFromForm);
+            $("#listAll").on('click', ajaxer.page.handlers.getAllEntities);
+            $("#entityList").on('click', '#edit', ajaxer.page.handlers.getEntityById);
+            $("#delete").on('click', ajaxer.page.handlers.deleteEntity);
+        }
+
+
+        ajaxer.page.handlers.deleteEntity = () => {
+            
+            // let $delete = $(this).closest("#dataInfo");
+            let id = $(".teamId").text();
+            let payload = {
+                id: id
+            };
+            ajaxer.page.deleteEntityAjaxCall(payload, ajaxer.page.deleteEntityAjaxCallSuccess, ajaxer.page.deleteEntityAjaxCallError);
+        }
+
+        ajaxer.page.deleteEntityAjaxCall = (onSuccess, onError) => {
+
+            var url = "www.****.com/api/entities/MannyTeams" + id;
+            var settings = {
+                cache: false,
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                dataType: "JSON",
+                success: onSuccess,
+                error: onError,
+                type: "DELETE"
+            }
+        }
+
+        ajaxer.page.deleteEntityAjaxCallSuccess = () => {
+            console.log("deleteEntityAjaxCallSuccess");
+        }
+
+        ajaxer.page.deleteEntityAjaxCallError = () => {
+            console.log("deleteEntityAjaxCallError");
+        }
+
+        ajaxer.page.handlers.getEntityById = function () {
+            //finding the closest team
+            let $team = $(this).closest("#dataInfo");
+
+            //select the text
+            let team = $team.find(".teamName").text();
+            let sport = $team.find(".sportName").text();
+            let city = $team.find(".cityName").text();
+            let id = $team.find(".teamId").text();
+
+            //post them back in the dom with info
+            $("#teamName").val(team);
+            $("#sportName").val(sport);
+            $("#cityName").val(city);
+            $("#id").val(id);
+
+            //use the ajax call to get id
+            ajaxer.page.getByIdAjaxCall(id, ajaxer.page.getByIdAjaxCallSuccess, ajaxer.page.getByIdAjaxCallError);
+        }
+
+        //AJAX call to get the ID #
+        ajaxer.page.getByIdAjaxCall = (id, onSuccess, onError) => {
+            var url = "www.****.com/api/entities/MannyTeams" + id;
+            var settings = {
+                cache: false,
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                dataType: "JSON",
+                success: onSuccess,
+                error: onError,
+                type: "GET"
+            }
+        }
+
+        ajaxer.page.getByIdAjaxCallSuccess = () => {
+            console.log("getByIdAjaxCallSuccess");
+        }
+
+        ajaxer.page.getByIdAjaxCallError = () => {
+            console.log("getByIdAjaxCallError");
+        }
+
+        //AJAX call to post the data from the #post button
+        ajaxer.page.postDataAjaxCall = (onSuccess, onError) => {
+            let url = "www.*****.com/api/entities/MannyTeams";
+
+            let settings = {
+                cache: false,
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                dataType: "JSON",
+                data: $entity,
+                success: onSuccess,
+                error: onError,
+                type: "POST"
+
+            }
+            $.ajax(url, settings);
+        }
+
+        ajaxer.page.postDataAjaxCallSuccess = () => {
+            console.log("postDataAjaxCallSuccess");
+        }
+
+        ajaxer.page.postDataAjaxCallError = () => {
+            console.log("postDataAjaxCallError")
+        }
+
+
+        //this function greabs the values fromform and POST them 
+        ajaxer.page.handlers.postDataFromForm = () => {
+            //get values
+            var $team = $("#teamName").val();
+            var $sport = $("#sportName").val();
+            var $city = $("#cityName").val();
+            //combine values into obj
+            $entity = {
+                team: $team,
+                sport: $sport,
+                city: $city,
+            }
+            //reset
+            var frm = $("#entityForm");
+            frm[0].reset();
+            //post the data using the ajax call
+            ajaxer.page.postDataAjaxCall($entity, ajaxer.page.postDataSuccess, ajaxer.page.postDataError);
+
+        }
+
+        // calling the function to get all data entities
+        ajaxer.page.handlers.getAllEntities = () => {
+            ajaxer.page.getAllDataAjaxCall(ajaxer.page.getAllDataAjaxCalSuccess, ajaxer.page.getAllDataAjaxCalError)
+        }
+
+        //AJAX call to get all data from endpoint
+        ajaxer.page.getAllDataAjaxCall = (onSuccess, onError) => {
+            let url = "www.****.com/api/entities/MannyTeams/";
+            // SET C2 D2
+            let settings = {
+                // When set to false the url will be changed to end like so ".../api/testcenter/echoperson?+=79483799799272"
+                // We have to do this b/c the browser under normal setting REALLY wants to used cached data and response. This forces the browswer to ignore cache and make an actual request.
+                cache: false,
+                // HTTP Requests "speak" different languages. The content type announce to the webserver the format of the HTTP Body that it should expect so it knows how to proceed with the appropriate model binding process
+
+                // If you announce one type but send over the wrong format, the request will error. 
+
+                // A) application/x-www-form-urlencoded; charset=UTF-8
+                // This states that we will send over name/value pairs. [n=v&firstName=ManuellastName=Sena]
+
+                // B) application/json; charset=UTF-8
+                // This states that we will send a JSON string. [{'firstName': 'Manuel', "lastName": "Sena"}]
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                // data: data, variable data is where we will store our data
+                // The expected format of the data that will be coming back or   returned. We always return JSON.
+                dataType: "JSON",
+                // This is the call back function to be invoked by jQuery when it encounters a status code that would qualify as a success (Generally one of the 200 level status codes).
+                success: onSuccess,
+                //This is the call back function to be incoked by Jquery when it encounters an error status code.
+                error: onError,
+                type: "GET"
+            }
+
+            $.ajax(url, settings);
+        }
+
+        //ajaxer.page.getAllDataAjaxCalSuccess = (data) => {
+        //    if successful then run the loop with the data and append them to the DOM
+        //     var team = data.items;
+
+        //     for (var i = 0; i < team.length; i++) {
+        //         //change the index of team to obj
+        //         var obj = team[i];
+        //         //target the template
+        //         var teamTemp = $($("#entityTemplate").html());
+        //         //finding the targets within the template
+        //         teamTemp.find(".teamName").text(obj.team);
+        //         teamTemp.find(".sportName").text(obj.sport);
+        //         teamTemp.find(".cityName").text(obj.city);
+        //         teamTemp.find(".teamId").text(obj.id);
+        //         //append items 
+        //         $("#entityList").append(teamTemp);
+        //     }
+        //    console.log(data);
+
+        //}
+
+        //ajaxer.page.getAllDataAjaxCalError = () => {
+        //    console.log("getAllDataAjaxCalError")
+        //}
+    </script>
+
+</body>
+
+</html>
