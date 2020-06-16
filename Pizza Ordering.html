@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Order UP!</title>
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h1>Pizza Order</h1>
+            <div class="col-md-5">
+                <form id="review" class="well">
+                    <div class="form-group">
+                        <label for="dough">Dough: </label>
+                        <input type="text" name="dough" id="dough">
+                    </div>
+                    <div class="form-group">
+                        <label for="sauce">Sauce: </label>
+                        <input type="text" name="sauce" id="sauce">
+                    </div>
+                    <div class="form-group">
+                        <label>Size: </label>
+                        <select name="size" id="size">
+                            <option value="S">Small ("10")</option>
+                            <option value="M">Medium ("14")</option>
+                            <option value="L">Large ("18")</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Toppings:</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" id="toppings"></textarea>
+                    </div>
+                    <button type="button" id="postOrder" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <h2>Order List</h2>
+            <div class="col-md-6 list">
+                <!-- start -->
+                <div class="row order well">
+                    <div class="col-md-12">
+                        <a href="" class="pull-right">
+                            <span class="glyphicon glyphicon-trash delete"></span>
+                        </a>
+                        <p>Dough:
+                            <span class="dough">HAND TOSSED</span>
+                        </p>
+                        <p>Sauce:
+                            <span class="sauce">Garlic Parmesan White Sauce</span>
+                        </p>
+                        <p>Size:
+                            <span class="size">Large</span>
+                        </p>
+                        <div class="toppings">
+                            <label>Toppings:</label>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- end -->
+            </div>
+        </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="ajaxer.js"></script>
+    <!-- All your code goes below here-->
+    <script type="text/html" id="template">
+        <div class="row order well">
+            <div class="col-md-12">
+                <a href="" class="pull-right">
+                    <span class="glyphicon glyphicon-trash delete"></span>
+                </a>
+                <p>Dough:
+                    <span class="dough">HAND TOSSED</span>
+                   
+                </p>
+                <p>Sauce:
+                    <span class="sauce">Garlic Parmesan White Sauce</span>
+                
+                </p>
+                <p>Size:
+                    <span class="size">Large</span>
+                    <span class="hiddenSize hidden">L</span>
+                </p>
+                
+                <p>Requested toppings: </p>
+                <p class="toppings"></p>
+                <img class="pizzaImg" src="https://giordanos.com/content/uploads/Pizza_New-Homepage-image.jpg" alt="">
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript">
+        ajaxer.page.startUp = function () {
+            $("#postOrder").on("click", ajaxer.page.handlers.orderMyPizza);
+            $(".list").on("click", ".delete", ajaxer.page.handlers.deleteOrderList);
+            $(".list").on("click", ".order", ajaxer.page.handlers.updateOrder);
+        }
+
+        ajaxer.page.handlers.updateOrder = function () {
+            ajaxer.page.lastDivClicked = $(this);
+            var dough = $(this).find(".dough").text();
+            var sauce = $(this).find(".sauce").text();
+            var size = $(this).find(".hiddenSize").text();
+            var toppings = $(this).find(".toppings").text();
+            $("#dough").val(dough);
+            $("#sauce").val(sauce);
+            $("#size").val(size);
+            $("#toppings").val(toppings);
+        }
+
+        ajaxer.page.handlers.deleteOrderList = function (e) {
+            e.preventDefault();
+            console.log(this);
+            $(this).closest(".order").remove();
+
+
+        }
+
+        ajaxer.page.handlers.orderMyPizza = function () {
+                //get values
+                var data = sabio.page.getPizzaDetails();
+            if (ajaxer.page.lastDivClicked) {
+                    //update the div
+                    ajaxer.page.lastDivClicked.find(".dough").text(data.dough);
+                ajaxer.page.lastDivClicked.find(".sauce").text(data.sauce);
+                ajaxer.page.lastDivClicked.find(".size").text(data.sizeText);
+                ajaxer.page.lastDivClicked.find(".hiddenSize").text(data.sizeVal);
+                ajaxer.page.lastDivClicked.find(".toppings").text(data.toppings);
+                } else {
+                    //clone
+                    var html = $("#template").html();
+                    var cloneOrder = $(html).clone();
+                    //find pass
+                    cloneOrder.find(".dough").text(data.dough);
+                    cloneOrder.find(".sauce").text(data.sauce);
+                    cloneOrder.find(".size").text(data.sizeText);
+                    cloneOrder.find(".hiddenSize").text(data.sizeVal);
+                    cloneOrder.find(".toppings").text(data.toppings);
+                    //ADD IMAGE
+                    //$("selector").attr('src', "img/picture1.jpg");
+                    cloneOrder.find(".pizzaImg").attr("src", "https://giordanos.com/content/uploads/Pizza_New-Homepage-image.jpg");
+                    //append
+                    $(".list").append(cloneOrder);
+                }
+                    var frmElem = $("#review");
+                    frmElem[0].reset();
+            ajaxer.page.lastDivClicked = null;
+
+                }
+
+        ajaxer.page.getPizzaDetails = function () {
+                    var pizza = {};
+                    pizza.dough = $("#dough").val();
+                    pizza.sauce = $("#sauce").val();
+                    pizza.sizeVal = $("#size").val();
+                    pizza.sizeText = $("#size :selected").text();
+                    pizza.toppings = $("#toppings").val();
+                    // pizza.date = $("#date").val();
+                    console.log(pizza);
+                    return pizza
+
+                }
+    </script>
+
+</body>
+
+</html>
